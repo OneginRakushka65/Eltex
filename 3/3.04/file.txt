@@ -1,0 +1,3 @@
+[KID]It's number: 231 462.000000
+[KID]It's word: 212d
+[PARENT]It's word: d
