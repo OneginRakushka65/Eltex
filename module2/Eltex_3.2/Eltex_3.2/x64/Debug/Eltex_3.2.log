@@ -1,0 +1,3 @@
+﻿  main.c
+C:\Users\nerou\source\repos\Eltex_3.2\Eltex_3.2\main.c(37,8): warning C4244: функция: преобразование "time_t" в "unsigned int", возможна потеря данных
+  Eltex_3.2.vcxproj -> C:\Users\nerou\source\repos\Eltex_3.2\x64\Debug\Eltex_3.2.exe
