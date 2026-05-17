@@ -1,0 +1,1 @@
+savedcmd_/home/slarkfish/Eltex/module5/task4/Module.symvers :=  scripts/mod/modpost -M -m       -o /home/slarkfish/Eltex/module5/task4/Module.symvers -T /home/slarkfish/Eltex/module5/task4/modules.order -i Module.symvers -e 

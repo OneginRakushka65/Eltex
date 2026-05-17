@@ -1,0 +1,1 @@
+savedcmd_/home/slarkfish/Eltex/module5/task4/char_dev_module.mod := printf '%s\n'   char_dev_module.o | awk '!x[$$0]++ { print("/home/slarkfish/Eltex/module5/task4/"$$0) }' > /home/slarkfish/Eltex/module5/task4/char_dev_module.mod
