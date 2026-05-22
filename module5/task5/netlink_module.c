@@ -22,7 +22,6 @@ int main(void) {
         perror("socket failed");
         return 1;
     }
-    printf("Step 1 OK: socket fd = %d\n", fd);
 
     memset(&src_addr, 0, sizeof(src_addr));
     src_addr.nl_family = AF_NETLINK;
@@ -33,7 +32,6 @@ int main(void) {
         close(fd);
         return 1;
     }
-    printf("Step 2 OK: bind pid = %d\n", getpid());
 
     nlh = (struct nlmsghdr *)malloc(NLMSG_SPACE(MAX_PAYLOAD));
     memset(nlh, 0, NLMSG_SPACE(MAX_PAYLOAD));
