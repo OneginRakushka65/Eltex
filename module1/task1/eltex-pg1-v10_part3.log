@@ -1,0 +1,20 @@
+mkdir -p D1/D2/D3
+touch D1/D2/file.txt
+vi D1/D2/file.txt
+ln D1/D2/file.txt D1/D2/D3/hardlink
+cd D1/D2/D3
+ln -s ../file.txt symlink
+cd ~
+ls D1/D2/D3 -l
+cd D1/D2
+mv file.txt ../
+cd ~
+cat D1/D2/D3/hardlink
+cat D1/D2/D3/symlink
+rm -r D1/D2
+find / -type f -size +20M 2>/dev/null > ~/"${USER}_part3_gt50M.log"
+head -10 ~/"${USER}_part3_gt50M.log" | xargs du -h
+find ~ -type f -mtime -1
+which find
+file /usr/bin/find
+file /boot/initrd.img*

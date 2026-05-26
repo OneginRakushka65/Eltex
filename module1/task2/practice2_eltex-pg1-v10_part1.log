@@ -1,0 +1,206 @@
+ssh-keygen -t ed25519
+Generating public/private ed25519 key pair.
+Enter file in which to save the key (/home/eltex-pg1-v10/.ssh/id_ed25519): /home/eltex-pg1-v10/.ssh/id_ed25519 already exists.
+Overwrite (y/n)? Your identification has been saved in /home/eltex-pg1-v10/.ssh/id_ed25519
+Your public key has been saved in /home/eltex-pg1-v10/.ssh/id_ed25519.pub
+The key fingerprint is:
+SHA256:ZlBY0rKZUIRizspKSatA9sON0um4cq/tQi3hbf9ZiWA eltex-pg1-v10@eltex-2026-spring
+The key's randomart image is:
++--[ED25519 256]--+
+|     +++o        |
+|  o o oo.        |
+| + . ..=         |
+| ++   +.         |
+|=o*++ E S        |
+|o*+B+o + . .     |
+|=.+o..  . o      |
+|+.oo  .  o       |
+|.oo=+  .o        |
++----[SHA256]-----+
+ssh-copy-id root@172.16.9.184
+Number of key(s) added: 1
+Now try logging into the machine, with:   "ssh 'root@172.16.9.184'"
+and check to make sure that only the key(s) you wanted were added.
+ssh root@172.16.9.184
+cat ~/.ssh/id_ed25519.pub
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICatKsjiwUt2LDvWDAZ9B6iTinYuEVjzrTbyTNSGu+mE eltex-pg1-v10@eltex-2026-spring
+ls -l ~/.ssh/id_ed25519.pub
+-rw-r--r-- 1 eltex-pg1-v10 eltex-pg1-v10 113 Mar 15 14:40 /home/eltex-pg1-v10/.ssh/id_ed25519.pub
+ssh root@172.16.9.184 "cat ~/.ssh/authorized_keys"
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICatKsjiwUt2LDvWDAZ9B6iTinYuEVjzrTbyTNSGu+mE eltex-pg1-v10@eltex-2026-spring
+ssh root@172.16.9.184 "ls -l ~/.ssh/authorized_keys"
+-rw------- 1 root root 113 Mar 15 08:25 /root/.ssh/authorized_keys
+ssh root@172.16.9.184
+password user1
+New password:
+Retype new password
+passwd: password update successfully
+ssh root@172.16.9.184 "adduser user2"
+info: Adding user `user2' ...
+info: Selecting UID/GID from range 1000 to 59999 ...
+info: Adding new group `user2' (1002) ...
+info: Adding new user `user2' (1002) with group `user2 (1002)' ...
+info: Creating home directory `/home/user2' ...
+info: Copying files from `/etc/skel' ...
+Changing the user information for user2
+Enter the new value, or press ENTER for the default
+	Full Name []: 	Room Number []: 	Work Phone []: 	Home Phone []: 	Other []: Is the information correct? [Y/n] info: Adding new user `user2' to supplemental / extra groups `users' ...
+info: Adding user `user2' to group `users' ...
+ssh root@172.16.9.184 "adduser user3"
+info: Adding user `user3' ...
+info: Selecting UID/GID from range 1000 to 59999 ...
+info: Adding new group `user3' (1003) ...
+info: Adding new user `user3' (1003) with group `user3 (1003)' ...
+info: Creating home directory `/home/user3' ...
+info: Copying files from `/etc/skel' ...
+Changing the user information for user3
+Enter the new value, or press ENTER for the default
+	Full Name []: 	Room Number []: 	Work Phone []: 	Home Phone []: 	Other []: Is the information correct? [Y/n] info: Adding new user `user3' to supplemental / extra groups `users' ...
+info: Adding user `user3' to group `users' ...
+ssh root@172.16.9.184 "usermod -s /usr/sbin/nologin user3"
+ssh root@172.16.9.184 "su user3"
+This account is currently not available.
+ssh root@172.16.9.184 "su -s /bin/bash user3"
+whoami
+user3
+ssh root@172.16.9.184
+groupadd eltex_group
+usermod -aG eltex_group user1
+usermod -aG eltex_group user2
+usermod -aG eltex_group user3
+id user1
+uid=1001(user1) gid=1001(user1) groups=1(user1),1004(eltex_group)
+id user2
+uid=1002(user2) gid=1002(user2) groups=1002(user2),100(users),1004(eltex_group)
+id user3
+uid=1003(user3) gid=1003(user3) groups=1003(user3),100(users),1004(eltex_group)
+mkdir -p /opt/share
+chown :eltex_group /opt/share
+chmod 770 /opt/share
+chmod g+s /opt/share
+drwxrws--- 2 root eltex_group 4096 Mar 15 12:14 /opt/share
+ssh root@172.16.9.184
+su user1
+umask
+0002
+vi ~/.bashrc
+umask
+0027
+su user1
+touch /opt/share/user1.txt
+exit
+su user2
+touch /opt/share/user2.txt
+exit
+su user3
+This account is currently not available.
+su -s /bin/bash user3
+touch /opt/share/user3.txt
+exit
+ls -l /opt/share
+total 0
+-rw-r----- 1 user1 eltex_group 0 Mar 15 14:24 user1.txt
+-rw-rw-r-- 1 user2 eltex_group 0 Mar 15 14:24 user2.txt
+-rw-rw-r-- 1 user3 eltex_group 0 Mar 15 14:25 user3.txt
+su user1
+rm /opt/share/user2.txt
+exit
+su user2
+rm /opt/share/user3.txt
+exit
+su user3
+This account is currently not available.
+su -s /bin/bash user3
+rm /opt/share/user1.txt
+exit
+ls -l /opt/share
+total 0
+chmod +t /opt/share
+su user1
+touch /opt/share/user1.txt
+exit
+su user2
+touch /opt/share/user2.txt
+exit
+su user3
+This account is currently not available.
+su -s /bin/bash user3
+touch /opt/share/user3.txt
+rm /opt/share/user1.txt
+rm: remove write-protected regular empty file '/opt/share/user1.txt'?
+exit
+su user1
+rm /opt/share/user2.txt
+rm: cannot remove '/opt/share/user2.txt': Operation not permitted
+exit
+su user2
+rm /opt/share/user3.txt
+rm: cannot remove '/opt/share/user3.txt': Operation not permitted
+exit
+ls -l /opt/share
+total 0
+-rw-r----- 1 user1 eltex_group 0 Mar 15 14:44 user1.txt
+-rw-rw-r-- 1 user2 eltex_group 0 Mar 15 14:44 user2.txt
+-rw-rw-r-- 1 user3 eltex_group 0 Mar 15 14:45 user3.txt
+sudo dmesg | tail -n 5
+[249489.367127] audit: type=1400 audit(1773553526.076:431): apparmor="DENIED" operation="mknod" class="file" profile="ubuntu_pro_esm_cache" name="/usr/lib/python3/dist-packages/uaclient/__pycache__/secret_manager.cpython-312.pyc.136187527632944" pid=48746 comm="python3" requested_mask="c" denied_mask="c" fsuid=0 ouid=0
+[249489.372010] audit: type=1400 audit(1773553526.081:432): apparmor="DENIED" operation="mknod" class="file" profile="ubuntu_pro_esm_cache" name="/usr/lib/python3/dist-packages/uaclient/__pycache__/system.cpython-312.pyc.136187527634992" pid=48746 comm="python3" requested_mask="c" denied_mask="c" fsuid=0 ouid=0
+[249489.378113] audit: type=1400 audit(1773553526.087:433): apparmor="DENIED" operation="mknod" class="file" profile="ubuntu_pro_apt_news" name="/usr/lib/python3/dist-packages/uaclient/__pycache__/event_logger.cpython-312.pyc.123376181549104" pid=48745 comm="python3" requested_mask="c" denied_mask="c" fsuid=0 ouid=0
+[249489.379351] audit: type=1400 audit(1773553526.088:434): apparmor="DENIED" operation="mknod" class="file" profile="ubuntu_pro_apt_news" name="/usr/lib/python3/dist-packages/uaclient/__pycache__/yaml.cpython-312.pyc.123376171042992" pid=48745 comm="python3" requested_mask="c" denied_mask="c" fsuid=0 ouid=0
+[249489.379983] audit: type=1400 audit(1773553526.089:435): apparmor="DENIED" operation="mknod" class="file" profile="ubuntu_pro_esm_cache" name="/usr/lib/python3/dist-packages/uaclient/__pycache__/exceptions.cpython-312.pyc.136187528080944" pid=48746 comm="python3" requested_mask="c" denied_mask="c" fsuid=0 ouid=0
+echo -e "#!/bin/bash\n/usr/bin/dmesg" > /usr/local/bin/run_dmesg.sh
+-bash: !/bin/bash\n/usr/bin/dmesg: event not found
+echo -e '#!/bin/bash\n/usr/bin/dmesg' > /usr/local/bin/run_dmesg.sh
+chown root:root /usr/local/bin/run_dmesg.sh
+chmod 4755 /usr/local/bin/run_dmesg.sh
+ls -l /usr/local/bin/run_dmesg.sh
+-rwsr-xr-x 1 root root 27 Mar 15 15:20 /usr/local/bin/run_dmesg.sh
+su user2
+sudo dmesg
+[sudo] password for user2:
+user2 is not in the sudoers file.
+/usr/local/bin/run_dmesg.sh | tail -n 5
+dmesg: read kernel buffer failed: Operation not permitted
+chage -M 10 user2
+chage -M 10 user3
+chage -M 10 user1
+chage -l user1
+Last password change                                    : Mar 15, 2026
+Password expires                                        : Mar 25, 2026
+Password inactive                                       : never
+Account expires                                         : never
+Minimum number of days between password change          : 0
+Maximum number of days between password change          : 10
+Number of days of warning before password expires       : 7
+chage -l user2
+Last password change                                    : Mar 15, 2026
+Password expires                                        : Mar 25, 2026
+Password inactive                                       : never
+Account expires                                         : never
+Minimum number of days between password change          : 0
+Maximum number of days between password change          : 10
+Number of days of warning before password expires       : 7
+chage -l user3
+Last password change                                    : Mar 15, 2026
+Password expires                                        : Mar 25, 2026
+Password inactive                                       : never
+Account expires                                         : never
+Minimum number of days between password change          : 0
+Maximum number of days between password change          : 10
+Number of days of warning before password expires       : 7
+mkdir -p /root/etc_backup
+rsync -a /etc/ /root/etc_backup/
+echo "$(date '+%F %T')" >> /etc/motd
+cat /root/etc_backup/motd
+rsync -av /etc/ /root/etc_backup/
+cat /root/etc_backup/motd
+tar -czf backup.tar.gz /root/etc_backup
+tar -cjf backup.tar.bz2 /root/etc_backup
+tar -cJf backup.tar.xz /root/etc_backup
+ls -lh ~/backup.tar*
+du -sb /root/etc_backup
+tar -djf backup.tar.bz2 -C /
+mkdir -p /root/etc_backup_gzip /root/etc_backup_7zip
+tar -xzf backup.tar.gz -C /root/etc_backup_gzip
+tar -xJf backup.tar.xz -C /root/etc_backup_7zip
+diff /root/etc_backup_gzip/root/etc_backup/motd /root/etc_backup_7zip/root/etc_backup/motd
